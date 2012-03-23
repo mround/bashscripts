@@ -20,9 +20,12 @@ function makeGetter($in)
 	$return.= "\n";
 	$return.= "\tpublic function get".upperCaseFirstLetter($in). "()\n";
 	$return.= "\t{\n";
-	$return.= "\t\t".'return $this->';
+	$return.= sprintf("\t\t\$return = FALSE;\n\t\t%sIsSet = isset( \$this->%s );\n\t\tif ( $%sIsSet )\n\t\t{\n\t\t\t",$in,$in,$in);
+	$return.= "".'$return = $this->';
 	$return.= $in;
 	$return.= ";";
+	$return.= "\n\t\t}\n";
+	$return.= "\t\treturn \$return\n";
 	$return.= "\n\t}\n";
 	$return.= "\n";
 	return $return;
@@ -34,7 +37,7 @@ function makeSetter($in)
 	$return.= "\n";
 	$return.= "\tpublic function set".upperCaseFirstLetter($in). "( $".$in.' )';
 	$return.= "\n\t{\n\t\t";
-	$return.= sprintf("$%sIsOK = isset($%s) && $%s != NULL;",$in,$in,$in);
+	$return.= sprintf("$%sIsOK = isset( $%s ) && $%s != NULL;",$in,$in,$in);
 	$return .= "\n";
 	$return.= sprintf("\t\tif ( $%sIsOK )",$in);
 	$return.= "\n\t\t{\n\t\t\t";
@@ -43,7 +46,7 @@ function makeSetter($in)
 	$return.= " = ";
 	$return.= "$".$in;
 	$return.= ";\n\t\t}\n";
-	$return.= "\n\t}\n";
+	$return.= "\t}\n";
 	$return.= "\n";
 	return $return;
 }
@@ -68,7 +71,10 @@ function makeConstructor($in){
 }
 
 	$className = $argv[1];
-	$varCount = $argv[2]-1;
+	//$varCount = $argv[2]-1;
+	$varCount = count($argv)-2;
+	var_dump($varCount);
+
 
 	echo "<?php";
 	echo "\n";
@@ -79,15 +85,15 @@ function makeConstructor($in){
 	echo "\n";
 
 
-	for ($i=0;$i<=$varCount;$i++){
-		makeInstanceVar($argv[$i+3]);
+	for ($i=1;$i<=$varCount;$i++){
+		makeInstanceVar($argv[$i]);
 	}
 
 	$getters = array();
 	$setters = array();
-	for ($i=0;$i<=$varCount;$i++){
-		$getters[] = makeGetter($argv[$i+3]);
-		$setters[] = makeSetter($argv[$i+3]);
+	for ($i=1;$i<=$varCount;$i++){
+		$getters[] = makeGetter($argv[$i]);
+		$setters[] = makeSetter($argv[$i]);
 	}
 	
 
@@ -108,8 +114,8 @@ function makeConstructor($in){
 
 	echo "\tpublic function __toString()
 	{\n\t\t\$out='';\n";
-	for ($i=0;$i<=$varCount;$i++){
-		echo "\t\t\$out.=\$" .($argv[$i+3]).";\n";
+	for ($i=1;$i<=$varCount;$i++){
+		echo "\t\t\$out.=\$" .($argv[$i]).";\n";
 	}
 	echo "\t\treturn \$out;\n";
 	echo "\t}\n\n";
