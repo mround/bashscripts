@@ -1,9 +1,15 @@
 #!/usr/bin/php
-
 <?php
-//ADD types to setters too
+/**
+ *	@author		Matthew Round
+ *	@date		2012-03-23 (12:33)
+ *	@filename	/home/roundyz/bin/bashscripts/ClassMaker.php
+ *	@copyright	Copyright (c) 2012, Matthew Round
+ */
+
+//TODO ADD types to setters too
 //creates a basic class, args like
-// <classname> <numberOfVars> <varname1> <varname2> etc..
+// <classname> <varname1> <varname2> etc..
 //TODO change to run like Classmaker.php classname <var1:type> <var2:type> ...
 function upperCaseFirstLetter($name){
 	$tempArray = str_split($name);
@@ -122,7 +128,7 @@ function makeConstructor($in){
 
 
 	makeConstructor(upperCaseFirstLetter($className));
-	echo "\n}//EOC";
+	echo "\n}";
 	echo "\n\n";
 	echo "?>";
 	
