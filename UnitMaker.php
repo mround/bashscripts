@@ -50,7 +50,7 @@ class Func
 {
 		$ret.=$parmLine."\n\t\t";
 }
-		$ret .="//TODO implement me...\n\t\t".'$this->assertTrue( FALSE , "Test Not yet implemented" );'."\n\t}\n\n";
+		$ret .="//TODO implement me...\n\t\t".'$success = FALSE;'."\n\t\t".'$this->assertTrue( $success , TRUE );'."\n\t}\n\n";
 		return $ret;
 	}
 
@@ -88,7 +88,7 @@ class MakeUnitTests
 
 	public function printClosing()
 	{
-		print "\n\n}//EOC\n\n?>\n\n";
+		print "\n\n}\n\n?>\n\n";
 	}
 
 	public function printClassName()
@@ -116,11 +116,12 @@ class MakeUnitTests
 				$this->functions[] = Func::constructFromLine($line);
 			}
 
-			$lineIsClassname = preg_match("/class/",$line);
+			$lineIsClassname = preg_match("/^class/",$line);
 			if ($lineIsClassname)
 			{
 				$this->classname = $line;
 			}
+			//todo add line in const
 
 		}
 	}
