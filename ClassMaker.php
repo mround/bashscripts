@@ -26,7 +26,7 @@ function makeGetter($in)
 	$return.= "\n";
 	$return.= "\tpublic function get".upperCaseFirstLetter($in). "()\n";
 	$return.= "\t{\n";
-	$return.= sprintf("\t\t\$return = FALSE;\n\t\t%sIsSet = isset( \$this->%s );\n\t\tif ( $%sIsSet )\n\t\t{\n\t\t\t",$in,$in,$in);
+	$return.= sprintf("\t\t\$return = FALSE;\n\t\t\$%sIsSet = isset( \$this->%s );\n\t\tif ( $%sIsSet )\n\t\t{\n\t\t\t",$in,$in,$in);
 	$return.= "".'$return = $this->';
 	$return.= $in;
 	$return.= ";";
