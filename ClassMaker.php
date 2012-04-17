@@ -91,13 +91,13 @@ function makeConstructor($in){
 	echo "\n";
 
 
-	for ($i=1;$i<=$varCount;$i++){
+	for ($i=2;$i<=$varCount+1;$i++){
 		makeInstanceVar($argv[$i]);
 	}
 
 	$getters = array();
 	$setters = array();
-	for ($i=1;$i<=$varCount;$i++){
+	for ($i=2;$i<=$varCount+1;$i++){
 		$getters[] = makeGetter($argv[$i]);
 		$setters[] = makeSetter($argv[$i]);
 	}
@@ -120,8 +120,18 @@ function makeConstructor($in){
 
 	echo "\tpublic function __toString()
 	{\n\t\t\$out='';\n";
-	for ($i=1;$i<=$varCount;$i++){
+	for ($i=2;$i<=$varCount+1;$i++){
 		echo "\t\t\$out.=\$" .($argv[$i]).";\n";
+	}
+	echo "\t\treturn \$out;\n";
+	echo "\t}\n\n";
+
+
+
+	echo "\tpublic function toArray()
+	{\n\t\t\$out= array();\n";
+	for ($i=2;$i<=$varCount+1;$i++){
+		echo "\t\t\$out['".$argv[$i]."']=\$this->" .($argv[$i]).";\n";
 	}
 	echo "\t\treturn \$out;\n";
 	echo "\t}\n\n";
