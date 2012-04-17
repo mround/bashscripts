@@ -31,7 +31,7 @@ function makeGetter($in)
 	$return.= $in;
 	$return.= ";";
 	$return.= "\n\t\t}\n";
-	$return.= "\t\treturn \$return\n";
+	$return.= "\t\treturn \$return;\n";
 	$return.= "\n\t}\n";
 	$return.= "\n";
 	return $return;
