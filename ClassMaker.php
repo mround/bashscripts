@@ -26,8 +26,8 @@ function makeGetter($in)
 	$return.= "\n";
 	$return.= "\tpublic function get".upperCaseFirstLetter($in). "()\n";
 	$return.= "\t{\n";
-	$return.= sprintf("\t\t\$return = FALSE;\n\t\t\$%sIsSet = isset( \$this->%s );\n\t\tif ( $%sIsSet )\n\t\t{\n\t\t\t",$in,$in,$in);
-	$return.= "".'$return = $this->';
+	$return.= sprintf("\t\t\$return = false;\n\t\t\$%sIsSet = isset(\$this->_%s);\n\t\tif ($%sIsSet) {\n\t\t\t",$in,$in,$in);
+	$return.= "".'$return = $this->_';
 	$return.= $in;
 	$return.= ";";
 	$return.= "\n\t\t}\n";
@@ -41,13 +41,13 @@ function makeSetter($in)
 {
 	$return = "";
 	$return.= "\n";
-	$return.= "\tpublic function set".upperCaseFirstLetter($in). "( $".$in.' )';
+	$return.= "\tpublic function set".upperCaseFirstLetter($in). "($".$in.')';
 	$return.= "\n\t{\n\t\t";
-	$return.= sprintf("$%sIsOK = isset( $%s ) && $%s != NULL;",$in,$in,$in);
+	$return.= sprintf("$%sIsOK = isset($%s) && $%s != null;",$in,$in,$in);
 	$return .= "\n";
-	$return.= sprintf("\t\tif ( $%sIsOK )",$in);
-	$return.= "\n\t\t{\n\t\t\t";
-	$return.= '$this->';
+	$return.= sprintf("\t\tif ($%sIsOK) {",$in);
+	$return.= "\n\t\t\t";
+	$return.= '$this->_';
 	$return.= $in;
 	$return.= " = ";
 	$return.= "$".$in;
@@ -60,6 +60,7 @@ function makeSetter($in)
 
 function makeInstanceVar($in){
 	echo "\tprivate $"; 
+	echo "_";
 	echo $in;
 	echo ";";
 	echo "\n";
@@ -121,7 +122,7 @@ function makeConstructor($in){
 	echo "\tpublic function __toString()
 	{\n\t\t\$out='';\n";
 	for ($i=2;$i<=$varCount+1;$i++){
-		echo "\t\t\$out.=\$" .($argv[$i]).";\n";
+		echo "\t\t\$out.=\$this->_" .($argv[$i]).";\n";
 	}
 	echo "\t\treturn \$out;\n";
 	echo "\t}\n\n";
@@ -131,7 +132,7 @@ function makeConstructor($in){
 	echo "\tpublic function toArray()
 	{\n\t\t\$out= array();\n";
 	for ($i=2;$i<=$varCount+1;$i++){
-		echo "\t\t\$out['".$argv[$i]."']=\$this->" .($argv[$i]).";\n";
+		echo "\t\t\$out['".$argv[$i]."']=\$this->_" .($argv[$i]).";\n";
 	}
 	echo "\t\treturn \$out;\n";
 	echo "\t}\n\n";
