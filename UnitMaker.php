@@ -12,12 +12,12 @@ class Func
 	static function constructFromLine($line)
 	{
 		$instance = new self();
-		$first = explode("function",$line);
-		$bits = explode("(",$first[1]);	
-		$vars = explode(",",$bits[1]);
-		$instance->name = trim(trim($bits[0]),"\n\t\r");
+		$first = explode("function", $line);
+		$bits = explode("(", $first[1]);	
+		$vars = explode(",", $bits[1]);
+		$instance->name = trim(trim($bits[0]), "\n\t\r");
 		foreach ($vars as $var) {
-			$trimmerVar = trim($var,")\n\t\r ");
+			$trimmerVar = trim($var, ")\n\t\r ");
 			if ($trimmerVar!="") {
 				$instance->parameters[]=$trimmerVar;
 			}
@@ -31,8 +31,7 @@ class Func
 		$parmLine;
 		if (count($this->parameters)>=1) {
 			$parmLine ="// Params = "; 
-			foreach($this->parameters as $param)
-			{
+			foreach($this->parameters as $param) {
 				$parmLine .= $param;
 			}
 		}
@@ -42,11 +41,18 @@ class Func
 		if (isset($parmLine)) {
 			$ret.=$parmLine."\n\t\t";
 		}
-		$ret .="//TODO implement me...\n\t\t".'$success = false;'."\n\t\t".'$this->assertTrue($success, true);'."\n\t}\n\n";
+		$ret .="//TODO implement me...\n";
+		$ret.="\t\t".'$success = false;'."\n";
+		$ret.="\t\t".'$this->assertTrue($success, true);'."\n\t}\n\n";
 		return $ret;
 	}
 
+
 }//EOC
+
+
+
+
 
 
 class MakeUnitTests
@@ -60,7 +66,7 @@ class MakeUnitTests
 	public function getLinesFromFile($file)
 	{
 		$lines = array();
-		$fp = fopen($file,'r');
+		$fp = fopen($file, 'r');
 		while (!feof($fp)) {
 			$lines[] = fgets($fp);
 		}
@@ -85,14 +91,13 @@ class MakeUnitTests
 	public function printClassName()
 	{
 		$classname = $this->classname;
-		$cn = explode(" ",$classname);
-		print "<?php\n\nclass ".trim($cn[1],"\n\r\t ")."Test extends PHPUnit_Framework_TestCase\n{\n\n";
+		$cn = explode(" ", $classname);
+		print "<?php\n\nclass ".trim($cn[1], "\n\r\t ")."Test extends PHPUnit_Framework_TestCase\n{\n\n";
 	}
 
 	public function printFunctions()
 	{
-		foreach ($this->functions as $function)
-		{
+		foreach ($this->functions as $function) {
 			print $function;
 		}
 	}
@@ -101,15 +106,14 @@ class MakeUnitTests
 	{
 		foreach ($lineArray as $line)
 		{
-			$lineIsFunction =preg_match("/function/",$line);
-			if ($lineIsFunction)
-			{
-				$this->functions[] = Func::constructFromLine($line);
+			$lineIsFunction =preg_match("/function/", $line);
+			if ($lineIsFunction) {
+				$function =  Func::constructFromLine($line);
+				$this->functions[] = $function;
 			}
 
-			$lineIsClassname = preg_match("/^class/",$line);
-			if ($lineIsClassname)
-			{
+			$lineIsClassname = preg_match("/^class/", $line);
+			if ($lineIsClassname) {
 				$this->classname = $line;
 			}
 			//todo add line in const
@@ -118,8 +122,7 @@ class MakeUnitTests
 	}
 
 
-
-}//EOC
+}
 
 
 
