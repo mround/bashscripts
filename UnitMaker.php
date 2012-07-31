@@ -15,14 +15,10 @@ class Func
 		$first = explode("function",$line);
 		$bits = explode("(",$first[1]);	
 		$vars = explode(",",$bits[1]);
-
 		$instance->name = trim(trim($bits[0]),"\n\t\r");
-
-		foreach ($vars as $var)
-		{
+		foreach ($vars as $var) {
 			$trimmerVar = trim($var,")\n\t\r ");
-			if ($trimmerVar!="")
-			{
+			if ($trimmerVar!="") {
 				$instance->parameters[]=$trimmerVar;
 			}
 			return $instance;
@@ -32,25 +28,21 @@ class Func
 
 	public function __toString()
 	{
-		
 		$parmLine;
-		if (count($this->parameters)>=1)
-		{
+		if (count($this->parameters)>=1) {
 			$parmLine ="// Params = "; 
 			foreach($this->parameters as $param)
 			{
 				$parmLine .= $param;
 			}
 		}
-
 		$ret ="\n\tpublic function test";
 		$ret .= $this->name;
 		$ret .= "()\n\t{\n\t\t";
-		if (isset($parmLine))
-{
-		$ret.=$parmLine."\n\t\t";
-}
-		$ret .="//TODO implement me...\n\t\t".'$success = FALSE;'."\n\t\t".'$this->assertTrue( $success , TRUE );'."\n\t}\n\n";
+		if (isset($parmLine)) {
+			$ret.=$parmLine."\n\t\t";
+		}
+		$ret .="//TODO implement me...\n\t\t".'$success = false;'."\n\t\t".'$this->assertTrue($success, true);'."\n\t}\n\n";
 		return $ret;
 	}
 
@@ -69,8 +61,7 @@ class MakeUnitTests
 	{
 		$lines = array();
 		$fp = fopen($file,'r');
-		while (!feof($fp))
-		{
+		while (!feof($fp)) {
 			$lines[] = fgets($fp);
 		}
 		fclose($fp);

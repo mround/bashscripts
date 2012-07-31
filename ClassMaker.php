@@ -31,7 +31,7 @@ function makeGetter($in)
 	$return.= $in;
 	$return.= ";";
 	$return.= "\n\t\t}\n";
-	$return.= "\t\treturn \$return;\n";
+	$return.= "\t\treturn \$return;";
 	$return.= "\n\t}\n";
 	$return.= "\n";
 	return $return;
@@ -44,15 +44,16 @@ function makeSetter($in)
 	$return.= "\tpublic function set".upperCaseFirstLetter($in). "($".$in.')';
 	$return.= "\n\t{\n\t\t";
 	$return.= sprintf("$%sIsOK = isset($%s) && $%s != null;",$in,$in,$in);
-	$return .= "\n";
+	$return.= "\n";
+	$return.= "\t\t\$return = false;\n";
 	$return.= sprintf("\t\tif ($%sIsOK) {",$in);
 	$return.= "\n\t\t\t";
 	$return.= '$this->_';
 	$return.= $in;
 	$return.= " = ";
 	$return.= "$".$in;
-	$return.= ";\n\t\t}\n";
-	$return.= "\t}\n";
+	$return.= ";\n\t\t\t\$return = true;\n\t\t}\n";
+	$return.= "\t\treturn \$return;\n\t}\n";
 	$return.= "\n";
 	return $return;
 }
@@ -69,7 +70,7 @@ function makeInstanceVar($in){
 
 function makeConstructor($in){
 	echo "\n";
-	echo "\tfunction __construct()
+	echo "\tpublic function __construct()
 	{
 	}";
 //TODO set default values to types...
@@ -80,7 +81,7 @@ function makeConstructor($in){
 	$className = $argv[1];
 	//$varCount = $argv[2]-1;
 	$varCount = count($argv)-2;
-	var_dump($varCount);
+	//var_dump($varCount);
 
 
 	echo "<?php";
